@@ -1,0 +1,41 @@
+show databases;
+
+create database friends;
+
+use friends;
+
+create table postnumber(
+postal_code CHAR(5) primary key,
+post_place VARCHAR(20)
+) Engine=InnoDB;
+
+show tables;
+describe postnumber;
+
+create table friend(
+friend_id SMALLINT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(40),
+birthday DATE,
+street_address VARCHAR(30),
+postal_code CHAR(5),
+FOREIGN KEY(postal_code) REFERENCES postnumber(postal_code)
+ON UPDATE CASCADE ON DELETE RESTRICT
+) Engine=InnoDB;
+
+create table phone(
+friend_id SMALLINT,
+phone_number VARCHAR(30),
+phone_type VARCHAR(10),
+PRIMARY KEY(friend_id, phone_type),
+FOREIGN KEY(friend_id) REFERENCES friend(friend_id)
+ON UPDATE CASCADE ON DELETE RESTRICT
+) Engine=InnoDB;
+
+INSERT INTO postnumber VALUES('01260','Vantaa'); 
+
+INSERT INTO friend(name, birthday, street_address, postal_code)
+VALUES('Matti','1982-05-01','Tuulentie 4','01260');
+
+INSERT INTO phone VALUES(2,'09-123456','koti');
+INSERT INTO phone VALUES(2,'09-818161','työ');
+INSERT INTO phone VALUES(2,'+358-40234674','koti');
